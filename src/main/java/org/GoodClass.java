@@ -1,13 +1,9 @@
 package org;
 
-import org.dtos.simpleDto;
+import org.dtos.SimpleDto;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
-
 
 
 // for this so-called good class, one can intuitively tell that testing the main
@@ -15,18 +11,18 @@ import java.util.logging.Logger;
 // method which can be mocked and verified super easily
 // there will be more unit tests for this class but each of them will be very simple
 // and intuitive to understand thus the simpler better tests would indicate better code...
-public class goodClass {
+public class GoodClass {
 
 
     EntityManager entityManager;
 
 
-    goodClass(EntityManager entityManager) {
+    GoodClass(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
-    public void interactWithDB(List<simpleDto> dtos, int id) throws Exception {
-        // check to see if entities with that ID already exist in the db
+    public void interactWithDB(List<SimpleDto> dtos, int id) throws Exception {
+        // persist only if that ID does not already exist
        if (!existsInDB(dtos)) {
            persist(dtos);
        }
@@ -35,15 +31,16 @@ public class goodClass {
     }
 
 
-    protected void persist(List<simpleDto> dtos) {
+    protected void persist(List<SimpleDto> dtos) {
         // some logic to persist
+        System.out.println("inside persist");
     }
 
 
-    protected boolean existsInDB(List<simpleDto> dtos) {
+    protected boolean existsInDB(List<SimpleDto> dtos) {
         boolean found = false;
-        for (simpleDto dto : dtos) {
-            List<simpleDto> returnedFromDb = queryDb("sample query blah blah", dto);
+        for (SimpleDto dto : dtos) {
+            List<SimpleDto> returnedFromDb = queryDb("sample query blah blah", dto);
             if (!returnedFromDb.isEmpty()) {
                 found = true;
                 break;
@@ -52,7 +49,7 @@ public class goodClass {
         return found;
     }
 
-    protected List<simpleDto> queryDb(String query, simpleDto dto) {
+    protected List<SimpleDto> queryDb(String query, SimpleDto dto) {
         return entityManager
                 .createNamedQuery(query)
                 .setParameter(1, dto.getBasicIdAsPrimaryKey())

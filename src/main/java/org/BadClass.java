@@ -1,6 +1,6 @@
 package org;
 
-import org.dtos.simpleDto;
+import org.dtos.SimpleDto;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -10,21 +10,21 @@ import java.util.List;
 // inside the same method and there would be no mocking possible
 // we would have to test every possible flow of execution which will create
 // a very unnecessarily complex test
-public class badClass {
+public class BadClass {
 
     EntityManager entityManager;
 
 
-    badClass(EntityManager entityManager) {
+    BadClass(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
 
 
-    public void interactWithDB(List<simpleDto> dtos, int id) throws Exception {
+    public void interactWithDB(List<SimpleDto> dtos, int id) throws Exception {
         // check to see if entities with that ID already exist in the db
-        for (simpleDto dto : dtos) {
-            List<simpleDto> returnedFromDb = entityManager
+        for (SimpleDto dto : dtos) {
+            List<SimpleDto> returnedFromDb = entityManager
                     .createNamedQuery("insert super long query to find the element in the db")
                     .setParameter(1, dto.getBasicIdAsPrimaryKey())
                     .setParameter(2, dto.getAnotherIdAsForeignKey())
